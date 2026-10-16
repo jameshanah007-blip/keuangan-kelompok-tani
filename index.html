@@ -1,21 +1,50 @@
 <!doctype html>
 <html lang="id">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#176b52"><title>Laporan Keuangan Kelompok Tani</title><link rel="stylesheet" href="assets/style.css"></head>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176b52">
+<title>Input Transaksi · Kelompok Tani</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
 <body>
-<header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">KT</span><span>Kelompok Tani<small>Sistem Laporan Keuangan · Mode Uji Coba</small></span></a><nav><a class="active" href="index.html">Input Transaksi</a><a href="transaksi.html">Daftar Transaksi</a><a href="laporan.html">Laporan</a></nav></header>
-<main class="container">
-<section class="notice">Mode uji coba tanpa login. Jangan masukkan data keuangan sensitif; akses simpan bergantung pada kebijakan Supabase.</section>
-<div id="app-panel">
-<div class="page-heading"><div><div class="eyebrow">PENCATATAN</div><h1>Input transaksi</h1><p class="muted">Pilih pemasukan atau pengeluaran, lalu pilih jenis transaksinya.</p></div><span class="pill">Mode Uji Coba</span></div>
-<section class="card">
-<div class="choice-row"><button type="button" data-direction="pemasukan" class="choice selected">Pemasukan</button><button type="button" data-direction="pengeluaran" class="choice">Pengeluaran</button></div>
-<label class="category-label">Jenis transaksi<select id="category-select"><option value="pupuk">Penjualan Pupuk</option><option value="lainnya">Pemasukan Lainnya</option></select></label>
-<form id="transaction-form" class="stack">
-<div id="fertilizer-fields" class="form-grid"><label>Nama pupuk<input name="product_name" maxlength="120" autocomplete="off"></label><label>Satuan<input name="unit" maxlength="30" autocomplete="off"></label><label>Jumlah<input name="quantity" type="text" inputmode="decimal" autocomplete="off"></label><label>Harga satuan (Rp)<input name="unit_price" type="text" inputmode="numeric" autocomplete="off"></label></div>
-<div id="other-fields" class="stack hidden"><label id="description-label">Keterangan pemasukan<input name="description" maxlength="240" autocomplete="off"></label><label>Jumlah (Rp)<input name="amount" type="text" inputmode="numeric" autocomplete="off"></label></div>
-<div class="form-actions"><button id="clear-button" type="reset" class="btn btn-outline">Kosongkan formulir</button><button id="save-button" type="submit" class="btn btn-primary">Simpan transaksi</button></div><p id="form-message" class="message" role="status"></p>
-</form></section>
-</div></main>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-mark">KT</span><span>Kelompok Tani<small>Sistem Laporan Keuangan</small></span></a>
+  <nav aria-label="Navigasi utama"><a class="active" href="index.html">Input Transaksi</a><a href="transaksi.html">Daftar Transaksi</a><a href="laporan.html">Laporan</a></nav>
+</header>
+<main class="container input-container">
+  <section class="page-heading input-heading">
+    <div><div class="eyebrow">PENCATATAN KEUANGAN</div><h1>Input Transaksi</h1><p class="muted">Pilih jenis transaksi untuk mulai mencatat.</p></div>
+  </section>
+  <section class="card input-card" aria-label="Pilih transaksi">
+    <div class="choice-row">
+      <button type="button" data-direction="pemasukan" class="choice income-choice"><span class="choice-icon" aria-hidden="true">↙</span><span><strong>Pemasukan</strong><small>Catat uang masuk</small></span><span class="choice-arrow" aria-hidden="true">›</span></button>
+      <button type="button" data-direction="pengeluaran" class="choice expense-choice"><span class="choice-icon" aria-hidden="true">↗</span><span><strong>Pengeluaran</strong><small>Catat uang keluar</small></span><span class="choice-arrow" aria-hidden="true">›</span></button>
+    </div>
+    <div id="transaction-details" class="transaction-details hidden">
+      <div class="form-section-heading"><span class="section-indicator" id="section-indicator">+</span><div><h2 id="form-title">Pemasukan</h2><p class="muted">Lengkapi rincian transaksi di bawah ini.</p></div></div>
+      <label class="category-label">Jenis transaksi<select id="category-select"><option value="pupuk">Penjualan Pupuk</option><option value="lainnya">Pemasukan Lainnya</option></select></label>
+      <form id="transaction-form" class="stack">
+        <div id="fertilizer-fields" class="form-grid">
+          <label>Nama pupuk<input name="product_name" maxlength="120" autocomplete="off"></label>
+          <label>Satuan<input name="unit" maxlength="30" autocomplete="off"></label>
+          <label>Jumlah<input name="quantity" type="text" inputmode="decimal" autocomplete="off"></label>
+          <label>Harga satuan (Rp)<input name="unit_price" type="text" inputmode="numeric" autocomplete="off"></label>
+        </div>
+        <div id="other-fields" class="stack hidden">
+          <label id="description-label">Keterangan pemasukan<input name="description" maxlength="240" autocomplete="off"></label>
+          <label>Jumlah (Rp)<input name="amount" type="text" inputmode="numeric" autocomplete="off"></label>
+        </div>
+        <div class="form-actions"><button id="clear-button" type="reset" class="btn btn-outline">Kosongkan formulir</button><button id="save-button" type="submit" class="btn btn-primary">Simpan transaksi</button></div>
+        <p id="form-message" class="message" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+  <p class="security-note">Mode uji coba tanpa login. Hindari memasukkan data keuangan sensitif.</p>
+</main>
 <footer>Kelompok Tani · Pencatatan keuangan</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/config.js"></script><script src="assets/entry.js"></script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script src="assets/entry.js"></script>
+</body>
+</html>
