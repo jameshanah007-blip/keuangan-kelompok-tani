@@ -66,3 +66,48 @@ footer{margin-top:auto}
  .form-actions .btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* Laporan formal enam bulanan, mengikuti struktur tabel Excel */
+.report-container{width:min(100% - 28px,1120px)}
+.report-filter{align-items:end}
+.report-filter label{flex:1;min-width:170px}
+.report-paper{background:#fff;color:#111;border:1px solid #d8ded9;padding:clamp(16px,3vw,32px);margin-top:24px}
+.report-title{text-align:center;border-bottom:1px solid #222;padding-bottom:12px;margin-bottom:14px}
+.report-title h2{font-size:clamp(15px,2vw,20px);line-height:1.35;margin:0 0 8px;font-weight:800}
+.report-title p{font-weight:800;margin:0;font-size:14px}
+.report-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0}
+.report-summary>div{border:1px solid #d9dfda;padding:9px 10px;min-width:0}
+.report-summary span{display:block;font-size:11px;color:#59645d;margin-bottom:5px}
+.report-summary strong{font-size:clamp(12px,1.5vw,17px);overflow-wrap:anywhere}
+.report-table-wrap{overflow-x:auto}
+.formal-report-table{width:100%;min-width:680px;border-collapse:collapse;font-size:13px;color:#111}
+.formal-report-table th,.formal-report-table td{border:1px solid #343a35;padding:8px 9px;text-transform:none;color:#111;vertical-align:top}
+.formal-report-table thead th{background:#f0f2f0;text-align:center;font-size:12px;font-weight:800}
+.formal-report-table td:first-child{width:70px;text-align:center;white-space:nowrap}
+.formal-report-table td:nth-child(2){min-width:260px}
+.formal-report-table .number{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.formal-report-table .section-row td{font-weight:800;background:#f7f8f7}
+.formal-report-table .total-row td{font-weight:800}
+.formal-report-table .ending-row td{font-weight:900;background:#eef4ef}
+.report-empty-note{font-size:12px;color:#59645d;margin:8px 0}
+.report-signatures{margin-top:28px;page-break-inside:avoid}
+.report-signatures>p{text-align:right;font-size:12px;margin-bottom:28px}
+.signature-columns{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:center}
+.signature-columns>div{display:flex;flex-direction:column;align-items:center;min-height:100px}
+.signature-columns p{margin:20px 0 45px;font-size:13px}
+.signature-columns span{font-size:12px}
+@media(max-width:650px){.report-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.report-filter{align-items:stretch}.report-filter label{min-width:100%}.report-filter .btn{width:100%}.report-paper{padding:12px}}
+@media print{
+ body{display:block;background:#fff!important;color:#000}
+ .topbar,footer,.report-filter,.page-heading{display:none!important}
+ .container,.report-container{width:100%;max-width:none;margin:0}
+ .card{border:0;box-shadow:none;margin:0;padding:0}
+ .report-paper{border:0;padding:0;margin:0}
+ .report-summary>div{background:#fff}
+ .formal-report-table{min-width:0;font-size:10px}
+ .formal-report-table th,.formal-report-table td{padding:5px}
+ .formal-report-table td:nth-child(2){min-width:0}
+ .report-signatures{break-inside:avoid}
+ @page{size:A4 landscape;margin:12mm}
+}
