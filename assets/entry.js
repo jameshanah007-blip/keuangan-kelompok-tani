@@ -11,7 +11,7 @@ const formHasUnclearedData=()=>{
  return ["product_name","unit","quantity","unit_price","description","amount"]
   .some(name=>String($('[name="'+name+'"]').value||"").trim()!=="");
 };
-$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
+$$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
  const requestedDirection=b.dataset.direction;
  if(requestedDirection===direction)return;
  if(saving){
@@ -23,7 +23,7 @@ $("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
   return;
  }
  direction=requestedDirection;
- $("[data-direction]").forEach(x=>{
+ $$("[data-direction]").forEach(x=>{
   x.classList.toggle("selected",x===b);
   x.setAttribute("aria-pressed",String(x===b));
  });
@@ -34,7 +34,7 @@ $("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
 $("#category-select").addEventListener("change",()=>{choose($("#category-select").value);say("")});
 bindMoney("unit_price");
 bindMoney("amount");
-$$("[data-direction]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.direction===direction)));
+$$$("[data-direction]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.direction===direction)));
 choose(category);
 $("#transaction-form").addEventListener("reset",e=>{
  if(saving){e.preventDefault();return}
