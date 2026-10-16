@@ -1,1 +1,28 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laporan Keuangan Kelompok Tani</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">KT</span><span>Kelompok Tani<small>Sistem Laporan Keuangan</small></span></a><nav><a href="index.html">Input Transaksi</a><a href="transaksi.html">Daftar Transaksi</a><a class="active" href="laporan.html">Laporan</a></nav></header><main class="container"><section class="notice">Mode uji coba tanpa login. Periksa angka laporan sebelum digunakan untuk keputusan keuangan.</section><div id="app-panel"><div class="page-heading"><div><div class="eyebrow">RINGKASAN</div><h1>Laporan keuangan</h1><p class="muted">Saldo awal diambil dari pengaturan Supabase jika sudah diisi.</p></div><span class="pill">Akses Terbatas</span></div><section class="card"><label>Periode<select id="period"><option value="all">Semua transaksi</option><option value="month">Bulan ini</option><option value="year">Tahun ini</option></select></label><div class="metrics"><article class="metric"><span>Saldo awal</span><strong id="opening">Memuat…</strong></article><article class="metric"><span>Pemasukan</span><strong id="income">Rp0</strong></article><article class="metric"><span>Pengeluaran</span><strong id="expense">Rp0</strong></article><article class="metric"><span>Saldo akhir</span><strong id="ending">Memuat…</strong></article></div><div id="report-details" class="empty-state">Memuat laporan…</div></section><section class="card"><h2>Lampiran keuntungan</h2><p class="muted">Lampiran ini belum dihitung otomatis; jangan gunakan nilai alokasi sebagai laporan final.</p><div class="allocation-grid"><div><span>Pengurus · 40%</span><strong id="allocation-management">—</strong></div><div><span>Pengembangan · 40%</span><strong id="allocation-development">—</strong></div><div><span>Operasional · 20%</span><strong id="allocation-operations">—</strong></div></div></section></div></main><footer>Kelompok Tani · Pencatatan keuangan</footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/config.js"></script><script src="assets/auth.js"></script><script src="assets/report.js"></script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#176b52"><title>Laporan Keuangan Kelompok Tani</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">KT</span><span>Kelompok Tani<small>Sistem Laporan Keuangan</small></span></a><nav aria-label="Navigasi utama"><a href="index.html">Input Transaksi</a><a href="transaksi.html">Daftar Transaksi</a><a class="active" href="laporan.html">Laporan</a></nav></header>
+<main class="container report-container">
+<section class="page-heading"><div><div class="eyebrow">LAPORAN PERTANGGUNGJAWABAN</div><h1>Laporan Keuangan</h1><p class="muted">Pilih semester dan tahun untuk melihat laporan enam bulanan.</p></div></section>
+<section class="card">
+<div class="report-filter">
+<label for="period">Periode laporan<select id="period"><option value="1">Januari – Juni</option><option value="2">Juli – Desember</option></select></label>
+<label for="report-year">Tahun<select id="report-year"></select></label>
+<button id="print-report" class="btn btn-outline" type="button">Cetak / Simpan PDF</button>
+</div>
+<section class="report-paper" id="report-paper">
+<header class="report-title"><h2>LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II</h2><p id="period-heading">PERIODE JANUARI - JUNI 2026</p></header>
+<div class="report-summary" id="report-summary"></div>
+<div id="report-details" class="report-table-wrap" aria-live="polite">Memuat laporan…</div>
+<div class="report-signatures"><p id="report-date">Purwosari, ....................................</p><div class="signature-columns"><div><strong>Mengetahui</strong><p>Ketua</p><span>..................................</span></div><div><strong>&nbsp;</strong><p>Bendahara</p><span>..................................</span></div></div></div>
+</section>
+</section>
+</main>
+<footer>Kelompok Tani · Pencatatan keuangan</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/config.js"></script><script src="assets/auth.js"></script><script src="assets/report.js"></script>
+</body></html>
