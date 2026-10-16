@@ -13,7 +13,7 @@ const formHasUnclearedData=()=>{
 };
 $$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
  const requestedDirection=b.dataset.direction;
- if(requestedDirection===direction)return;
+ if(requestedDirection===direction){updateDirectionUI();return;}
  if(saving){
   say("Transaksi sedang disimpan. Tunggu sampai proses selesai sebelum mengganti jenis transaksi.","error");
   return;
