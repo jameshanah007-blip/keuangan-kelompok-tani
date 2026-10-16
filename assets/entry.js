@@ -7,9 +7,23 @@ const updateDirectionUI=()=>{
  $("#section-indicator").style.background=direction==="pemasukan"?"#e5f5eb":"#fff0ed";
  $("#section-indicator").style.color=direction==="pemasukan"?"#176b52":"#b44738";
 };
-$$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
- direction=b.dataset.direction;
- $$("[data-direction]").forEach(x=>{
+const formHasUnclearedData=()=>{
+ return ["product_name","unit","quantity","unit_price","description","amount"]
+  .some(name=>String($('[name="'+name+'"]').value||"").trim()!=="");
+};
+$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
+ const requestedDirection=b.dataset.direction;
+ if(requestedDirection===direction)return;
+ if(saving){
+  say("Transaksi sedang disimpan. Tunggu sampai proses selesai sebelum mengganti jenis transaksi.","error");
+  return;
+ }
+ if(formHasUnclearedData()){
+  say("Rincian transaksi masih berisi data yang belum disimpan. Simpan transaksi terlebih dahulu atau tekan Kosongkan formulir sebelum berpindah ke "+(requestedDirection==="pemasukan"?"Pemasukan":"Pengeluaran")+".","error");
+  return;
+ }
+ direction=requestedDirection;
+ $("[data-direction]").forEach(x=>{
   x.classList.toggle("selected",x===b);
   x.setAttribute("aria-pressed",String(x===b));
  });
