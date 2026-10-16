@@ -2,3 +2,67 @@
 /* Input transaksi and editing */
 .category-label{margin:4px 0 20px;max-width:520px}.category-label select{cursor:pointer}.choice-row{display:flex;gap:10px;margin:8px 0 20px}.choice{flex:1;background:#fff;border:1px solid #d6e2da;border-radius:11px;padding:13px;color:#40564a;font-weight:750;cursor:pointer}.choice.selected{background:#e9f5ee;border-color:#5e9a7e;color:#10513e}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-grid input,.stack input{font-variant-numeric:tabular-nums}.form-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:4px}.small-btn{margin:2px}.editing-row{background:#f2f8f4}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type=number]{appearance:textfield;-moz-appearance:textfield}
 @media(max-width:700px){.form-grid{grid-template-columns:1fr}.choice-row{gap:8px}.form-actions .btn{flex:1}}
+
+/* Modern responsive transaction entry */
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172c24;background:#f5f8f6;--green:#176b52;--line:#e0e9e3;--muted:#718078}
+body{background:radial-gradient(ellipse at top left,#e7f3eb 0,transparent 36%),#f5f8f6}
+.topbar{position:sticky;top:0;z-index:5;padding-top:12px;padding-bottom:12px;backdrop-filter:blur(14px);background:rgba(255,255,255,.94)}
+.brand-mark{box-shadow:0 5px 12px #176b5228;font-size:13px;font-weight:850;letter-spacing:.04em}
+.topbar nav a{transition:background .18s ease,color .18s ease}
+.topbar nav a:hover{background:#f0f5f1}
+.input-container{width:min(100% - 32px,760px);margin:clamp(28px,6vh,64px) auto 28px}
+.input-heading{margin:0 0 24px}
+.input-heading h1{letter-spacing:-.04em;font-size:clamp(30px,5vw,42px)}
+.input-card{border:1px solid #e1eae4;border-radius:24px;padding:clamp(16px,4vw,30px);box-shadow:0 18px 50px #173b280d}
+.choice-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+.choice{display:flex;align-items:center;gap:13px;min-width:0;min-height:100px;padding:18px;text-align:left;border:1px solid #e0e9e3;border-radius:18px;background:#fff;color:#1d352a;box-shadow:0 5px 15px #183a2708;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.choice:hover{transform:translateY(-2px);box-shadow:0 12px 24px #183a2710}
+.choice.selected{border-color:#78ad91;background:#f2faf5}
+.choice-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:14px;font-size:23px;font-weight:800}
+.income-choice .choice-icon{color:#16764d;background:#e4f6eb}
+.expense-choice .choice-icon{color:#b34a3e;background:#fff0ed}
+.choice strong,.choice small{display:block}
+.choice strong{font-size:16px;margin-bottom:5px}
+.choice small{font-size:12px;font-weight:500;color:#738078}
+.choice-arrow{margin-left:auto;font-size:28px;font-weight:400;color:#92a198}
+.transaction-details{margin-top:28px;padding-top:26px;border-top:1px solid #e8eee9;animation:show-details .22s ease-out}
+@keyframes show-details{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.form-section-heading{display:flex;align-items:center;gap:13px;margin-bottom:24px}
+.form-section-heading h2{margin:0 0 4px;font-size:20px;letter-spacing:-.02em}
+.section-indicator{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#e5f5eb;color:#176b52;font-size:23px;font-weight:800}
+.category-label{max-width:none;margin:0 0 20px}
+label{gap:8px;font-size:13px;font-weight:700;color:#35493e}
+input,select{min-height:48px;padding:12px 14px;border-color:#d8e3db;border-radius:12px;box-shadow:0 1px 2px #183a2704;transition:border-color .15s ease,box-shadow .15s ease}
+input:focus,select:focus{outline:none;border-color:#4b9875;box-shadow:0 0 0 4px #176b5217}
+input:disabled{background:#f5f7f5;color:#a0aaa3}
+.form-grid{gap:17px}
+.form-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:8px}
+.btn{min-height:48px;border-radius:12px;padding:12px 16px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(135deg,#197555,#12563f);box-shadow:0 6px 14px #176b5226}
+.btn-outline{border-color:#d8e3db;color:#405348}
+.message{padding-top:2px}
+.security-note{text-align:center;color:#849087;font-size:12px;margin:18px 0 0}
+footer{margin-top:auto}
+@media(max-width:600px){
+ .topbar{padding:10px 14px;gap:10px}
+ .brand-mark{width:38px;height:38px;border-radius:12px}
+ .brand{font-size:14px}
+ .brand small{font-size:10px}
+ .topbar nav{gap:3px}
+ .topbar nav a{font-size:12px;padding:9px 10px;white-space:nowrap}
+ .input-container{width:calc(100% - 24px);margin:28px auto 20px}
+ .input-heading{margin-bottom:18px}
+ .input-card{padding:16px;border-radius:20px}
+ .choice-row{gap:9px}
+ .choice{min-height:105px;align-items:flex-start;gap:9px;padding:13px 10px;border-radius:15px;flex-wrap:wrap}
+ .choice-icon{width:36px;height:36px;flex-basis:36px;border-radius:11px;font-size:19px}
+ .choice strong{font-size:14px}
+ .choice small{font-size:11px;line-height:1.4}
+ .choice-arrow{font-size:21px;margin-left:auto}
+ .transaction-details{margin-top:22px;padding-top:22px}
+ .form-grid,.allocation-grid{grid-template-columns:1fr}
+ .form-actions{grid-template-columns:1fr}
+ .form-actions .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
