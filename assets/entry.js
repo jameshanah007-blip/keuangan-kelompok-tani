@@ -34,7 +34,7 @@ $$("[data-direction]").forEach(b=>b.addEventListener("click",()=>{
 $("#category-select").addEventListener("change",()=>{choose($("#category-select").value);say("")});
 bindMoney("unit_price");
 bindMoney("amount");
-$$$("[data-direction]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.direction===direction)));
+$$("[data-direction]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.direction===direction)));
 choose(category);
 $("#transaction-form").addEventListener("reset",e=>{
  if(saving){e.preventDefault();return}
