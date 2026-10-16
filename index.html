@@ -4,18 +4,16 @@
 <body>
 <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">KT</span><span>Kelompok Tani<small>Sistem Laporan Keuangan · Mode Uji Coba</small></span></a><nav><a class="active" href="index.html">Input Transaksi</a><a href="transaksi.html">Daftar Transaksi</a><a href="laporan.html">Laporan</a></nav></header>
 <main class="container">
-<section class="notice">Mode uji coba: login dinonaktifkan. Jangan masukkan data keuangan sensitif. Operasi database hanya berhasil jika kebijakan Supabase mengizinkan akses anon.</section>
-<section id="setup-warning" class="notice hidden"></section>
+<section class="notice">Mode uji coba tanpa login. Jangan masukkan data keuangan sensitif; akses simpan bergantung pada kebijakan Supabase.</section>
 <div id="app-panel">
-<div class="page-heading"><div><div class="eyebrow">PENCATATAN</div><h1>Input transaksi</h1><p class="muted">Masukkan transaksi yang benar-benar terjadi. Formulir tidak berisi data contoh.</p></div><span class="pill">Mode Uji Coba</span></div>
+<div class="page-heading"><div><div class="eyebrow">PENCATATAN</div><h1>Input transaksi</h1><p class="muted">Pilih pemasukan atau pengeluaran, lalu pilih jenis transaksinya.</p></div><span class="pill">Mode Uji Coba</span></div>
 <section class="card">
-<div class="section-heading"><div><h2 id="form-heading">Pemasukan</h2><p class="muted">Pilih jenis transaksi terlebih dahulu.</p></div></div>
 <div class="choice-row"><button type="button" data-direction="pemasukan" class="choice selected">Pemasukan</button><button type="button" data-direction="pengeluaran" class="choice">Pengeluaran</button></div>
-<div class="choice-row compact"><button type="button" data-category="pupuk" class="choice selected" id="category-fertilizer">Penjualan Pupuk</button><button type="button" data-category="lainnya" class="choice" id="category-other">Pemasukan Lainnya</button></div>
+<label class="category-label">Jenis transaksi<select id="category-select"><option value="pupuk">Penjualan Pupuk</option><option value="lainnya">Pemasukan Lainnya</option></select></label>
 <form id="transaction-form" class="stack">
-<div id="fertilizer-fields" class="form-grid"><label>Nama pupuk<input name="product_name" maxlength="120" placeholder="Contoh: Ponska"></label><label>Satuan<input name="unit" maxlength="30" placeholder="Contoh: karung"></label><label>Jumlah<input name="quantity" type="number" min="0.001" step="any" inputmode="decimal"></label><label>Harga satuan (Rp)<input name="unit_price" type="number" min="1" step="1" inputmode="numeric"></label></div>
-<div id="other-fields" class="stack hidden"><label>Keterangan<input name="description" maxlength="240" placeholder="Keterangan transaksi"></label><label>Jumlah (Rp)<input name="amount" type="number" min="1" step="1" inputmode="numeric"></label></div>
-<div class="form-actions"><button type="reset" class="btn btn-outline">Kosongkan formulir</button><button id="save-button" type="submit" class="btn btn-primary">Simpan transaksi</button></div><p id="form-message" class="message" role="status"></p>
+<div id="fertilizer-fields" class="form-grid"><label>Nama pupuk<input name="product_name" maxlength="120" autocomplete="off"></label><label>Satuan<input name="unit" maxlength="30" autocomplete="off"></label><label>Jumlah<input name="quantity" type="text" inputmode="decimal" autocomplete="off"></label><label>Harga satuan (Rp)<input name="unit_price" type="text" inputmode="numeric" autocomplete="off"></label></div>
+<div id="other-fields" class="stack hidden"><label id="description-label">Keterangan pemasukan<input name="description" maxlength="240" autocomplete="off"></label><label>Jumlah (Rp)<input name="amount" type="text" inputmode="numeric" autocomplete="off"></label></div>
+<div class="form-actions"><button id="clear-button" type="reset" class="btn btn-outline">Kosongkan formulir</button><button id="save-button" type="submit" class="btn btn-primary">Simpan transaksi</button></div><p id="form-message" class="message" role="status"></p>
 </form></section>
 </div></main>
 <footer>Kelompok Tani · Pencatatan keuangan</footer>
