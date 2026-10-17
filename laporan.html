@@ -13,7 +13,7 @@
 <div class="report-filter">
 <label for="period">Periode laporan<select id="period"><option value="1">Januari – Juni</option><option value="2">Juli – Desember</option></select></label>
 <label for="report-year">Tahun<select id="report-year"></select></label>
-<button id="apply-period" class="btn btn-primary" type="button">Pilih Periode</button><button id="print-report" class="btn btn-outline" type="button">Cetak / Simpan PDF</button>
+<button id="apply-period" class="btn btn-primary" type="button">Pilih Periode</button><button id="download-pdf" class="btn btn-outline" type="button">Download PDF</button>
 </div>
 <section class="report-paper" id="report-paper">
 <header class="report-title"><h2>LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II</h2><p id="period-heading">PERIODE JANUARI - JUNI 2026</p></header>
@@ -24,5 +24,5 @@
 </section>
 </main>
 <footer>Kelompok Tani · Pencatatan keuangan</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/config.js"></script><script src="assets/auth.js"></script><script src="assets/report.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/config.js"></script><script src="assets/auth.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script><script src="assets/report.js"></script>
 </body></html>
