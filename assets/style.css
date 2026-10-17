@@ -128,3 +128,19 @@ footer{margin-top:auto}
  .period-fields{grid-template-columns:minmax(0,1fr) minmax(95px,.55fr);gap:9px}
  .period-copy small{font-size:11px}
 }
+
+
+/* Free-form year fields and Excel-style report attachment */
+.period-fields input{min-height:44px;padding:10px 11px;background:#fff}
+.report-filter input{min-height:44px}
+.report-attachment{margin-top:30px;padding-top:22px;border-top:2px solid #d8ded9;break-before:page}
+.attachment-table{width:100%;min-width:0;border-collapse:collapse;font-size:13px;color:#111}
+.attachment-table td{border:1px solid #343a35;padding:10px 12px;color:#111;text-transform:none;vertical-align:top}
+.attachment-table td:first-child{width:70px;text-align:center}
+.attachment-table td:nth-child(2){width:auto}
+.attachment-table td.number{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.attachment-table .attachment-heading td{border:0;font-weight:800;padding:4px 0 18px}
+.attachment-table .section-row td{font-weight:800;background:#f7f8f7}
+.attachment-table .total-row td{font-weight:800}
+@media(max-width:650px){.report-attachment{margin-top:24px;padding-top:18px}.attachment-table{font-size:12px}.attachment-table td{padding:9px 7px}.attachment-table td:first-child{width:48px}}
+@media print{.report-attachment{break-before:page;page-break-before:always}.attachment-table{min-width:0;font-size:10px}.attachment-table td{padding:6px}}
