@@ -1,0 +1,29 @@
+name: Validate static JavaScript
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["release/member-readonly-2026-10-17"]
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            echo "Checking $file"
+            node --check "$file"
+          done < <(find assets -type f -name '*.js' -print0)
