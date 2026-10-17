@@ -36,12 +36,46 @@ row("I","KEUNTUNGAN KELOMPOK :","","section-row");profitRows.forEach(r=>row(r.nu
 function render(){renderMain();buildAttachment()}
 async function load(){const settings=await db.from("tani_pengaturan").select("saldo_awal").eq("id",1).maybeSingle();if(settings.error){$("#report-details").textContent="Gagal membaca saldo awal: "+settings.error.message;return}opening=Number(settings.data?.saldo_awal??0);const result=await db.from("tani_transaksi").select("*").order("created_at",{ascending:true});if(result.error){$("#report-details").textContent="Tidak dapat memuat laporan: "+result.error.message+" (periksa akses akun dan kebijakan RLS Supabase).";return}rows=result.data||[];render()}
 function validYear(){const raw=String($("#report-year").value||"").trim();if(!/^\d{4}$/.test(raw)||Number(raw)<1900||Number(raw)>9999){alert("Masukkan tahun dengan 4 angka, misalnya 2026.");$("#report-year").focus();return null}return Number(raw)}
-async function downloadPdf(){const button=$("#download-pdf");if(button.disabled)return;button.disabled=true;const oldLabel=button.textContent;button.textContent="Menyiapkan PDF…";try{if(!window.jspdf?.jsPDF)throw new Error("Pustaka jsPDF belum termuat. Periksa koneksi internet lalu muat ulang halaman.");if(!$("#report-details table")||!$("#attachment-details table"))throw new Error("Tabel laporan atau lampiran belum selesai dimuat. Tunggu hingga tabel tampil, lalu coba lagi.");const p=periodBounds(),doc=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4"}),pageWidth=doc.internal.pageSize.getWidth();
-doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text("LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II",pageWidth/2,12,{align:"center"});doc.setFontSize(10);doc.text($("#period-heading").textContent,pageWidth/2,18,{align:"center"});
-const data=Array.from($("#report-details table tbody").querySelectorAll("tr"),tr=>Array.from(tr.cells,td=>td.textContent));if(typeof doc.autoTable!=="function")throw new Error("Komponen tabel PDF belum termuat. Muat ulang halaman dan coba lagi.");
-doc.autoTable({startY:23,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:10,right:10},styles:{fontSize:8,cellPadding:1.5,textColor:[0,0,0],overflow:"linebreak"},headStyles:{fillColor:[239,242,239],textColor:[0,0,0]},columnStyles:{0:{cellWidth:15},1:{cellWidth:130},2:{halign:"right"},3:{halign:"right"},4:{halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&(["I","II","III","IV","TOTAL"].includes(row[0])))d.cell.styles.fontStyle="bold"}});
-let y=(doc.lastAutoTable?.finalY||45)+5;if(y>180){doc.addPage();y=15}doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text("Mengetahui",35,y);doc.text("Bendahara",pageWidth-45,y);y+=6;doc.text("Ketua",35,y);doc.text("..................................",25,y+18);doc.text("..................................",pageWidth-55,y+18);
-doc.addPage("a4","landscape");doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("LAMPIRAN",14,18);doc.setFontSize(10);doc.text($("#attachment-period").textContent,14,25);const attachmentData=Array.from($("#attachment-details table tbody").querySelectorAll("tr"),tr=>Array.from(tr.cells,td=>td.textContent));doc.autoTable({startY:32,head:[],body:attachmentData,theme:"grid",margin:{left:18,right:18},styles:{fontSize:11,cellPadding:3,textColor:[0,0,0]},columnStyles:{0:{cellWidth:20,halign:"center"},1:{cellWidth:190},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"||row[0]===""))d.cell.styles.fontStyle="bold"}});doc.save("Laporan-Keuangan-"+p.year+"-Semester-"+p.half+".pdf")}catch(error){console.error("Gagal membuat PDF laporan:",error);alert("Download PDF gagal: "+(error?.message||"terjadi kesalahan tak dikenal")+". Coba muat ulang halaman.");}finally{button.disabled=false;button.textContent=oldLabel}}
+async function downloadPdf(){
+ const button=document.getElementById("download-pdf");
+ if(button.disabled)return;
+ button.disabled=true;
+ const oldLabel=button.textContent;
+ button.textContent="Menyiapkan PDF…";
+ try{
+  const JsPDF=window.jspdf&&window.jspdf.jsPDF;
+  if(typeof JsPDF!=="function")throw new Error("Pustaka PDF belum termuat. Periksa koneksi internet, lalu muat ulang halaman.");
+  const mainTable=document.querySelector("#report-details table");
+  const attachmentTable=document.querySelector("#attachment-details table");
+  if(!mainTable||!attachmentTable)throw new Error("Tabel laporan atau lampiran belum selesai dimuat.");
+  const rowsToData=table=>Array.from(table.querySelectorAll("tbody tr")).map(tr=>Array.from(tr.querySelectorAll("th,td")).map(td=>td.textContent.trim()));
+  const data=rowsToData(mainTable);
+  const attachmentData=rowsToData(attachmentTable);
+  const doc=new JsPDF({orientation:"landscape",unit:"mm",format:"a4"});
+  if(typeof doc.autoTable!=="function")throw new Error("Komponen tabel PDF belum termuat. Periksa koneksi internet dan coba lagi.");
+  const pageWidth=doc.internal.pageSize.getWidth();
+  doc.setFont("helvetica","bold");doc.setFontSize(12);
+  doc.text("LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II",pageWidth/2,12,{align:"center"});
+  doc.setFontSize(10);
+  doc.text(document.getElementById("period-heading").textContent,pageWidth/2,18,{align:"center"});
+  doc.autoTable({startY:23,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:10,right:10},styles:{fontSize:8,cellPadding:1.5,textColor:[0,0,0],overflow:"linebreak"},headStyles:{fillColor:[239,242,239],textColor:[0,0,0]},columnStyles:{0:{cellWidth:15},1:{cellWidth:130},2:{halign:"right"},3:{halign:"right"},4:{halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&["I","II","III","IV","TOTAL"].includes(row[0]))d.cell.styles.fontStyle="bold"}});
+  let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
+  if(y>180){doc.addPage("a4","landscape");y=15}
+  doc.setFont("helvetica","normal");doc.setFontSize(9);
+  doc.text("Mengetahui",35,y);doc.text("Bendahara",pageWidth-45,y);
+  doc.text("Ketua",35,y+7);
+  doc.text("..................................",25,y+25);
+  doc.text("..................................",pageWidth-55,y+25);
+  doc.addPage("a4","landscape");
+  doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("LAMPIRAN",14,18);
+  doc.setFontSize(10);doc.text(document.getElementById("attachment-period").textContent,14,25);
+  doc.autoTable({startY:32,head:[],body:attachmentData,theme:"grid",margin:{left:18,right:18},styles:{fontSize:11,cellPadding:3,textColor:[0,0,0]},columnStyles:{0:{cellWidth:20,halign:"center"},1:{cellWidth:190},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
+  doc.save("Laporan-Keuangan-"+periodBounds().year+"-Semester-"+periodBounds().half+".pdf");
+ }catch(error){
+  console.error("Gagal membuat PDF laporan:",error);
+  alert("Download PDF gagal: "+(error&&error.message?error.message:"kesalahan tidak diketahui")+".");
+ }finally{button.disabled=false;button.textContent=oldLabel}
+}
 async function init(){setupYears();$("#apply-period").addEventListener("click",()=>{const year=validYear();if(year===null)return;appliedHalf=Number($("#period").value);appliedYear=year;render()});$("#report-year").addEventListener("keydown",e=>{if(e.key==="Enter")$("#apply-period").click()});$("#download-pdf").addEventListener("click",downloadPdf);updateHeading();if(!window.isSupabaseConfigured||!isSupabaseConfigured()){$("#report-details").textContent="Konfigurasi Supabase belum lengkap. Periksa assets/config.js.";return}if(!window.KT_AUTH){$("#report-details").textContent="Sesi login belum siap. Silakan masuk kembali.";return}const authenticated=await window.KT_AUTH.ready;if(!authenticated)return;db=window.KT_AUTH.client;await load()}
 init();
 })();
