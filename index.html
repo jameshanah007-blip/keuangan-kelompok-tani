@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#176b52">
 <title>Input Transaksi · Kelompok Tani</title>
-<link rel="stylesheet" href="assets/style.css?v=milestone-20261017-1">
+<link rel="stylesheet" href="assets/style.css?v=month-period-20261018-1">
 </head>
 <body>
 <header class="topbar">
@@ -18,9 +18,9 @@
   </section>
   <section class="card input-card" aria-label="Pilih transaksi">
     <section class="active-period-panel" aria-label="Periode transaksi aktif">
-      <div class="period-copy"><span class="period-icon" aria-hidden="true">▦</span><div><strong>Periode transaksi aktif</strong><small>Semua transaksi baru akan menggunakan periode ini.</small></div></div>
+      <div class="period-copy"><span class="period-icon" aria-hidden="true">▦</span><div><strong>Periode transaksi aktif</strong><small>Isi bulan transaksi sebelum menyimpan. Bulan ini menjadi penanda laporan.</small></div></div>
       <div class="period-fields">
-        <label for="active-semester">Semester<select id="active-semester" name="active_semester"><option value="1">Januari – Juni</option><option value="2">Juli – Desember</option></select></label>
+        <label for="active-month">Bulan transaksi<input id="active-month" name="active_month" type="text" list="month-options" maxlength="20" autocomplete="off" placeholder="Tulis nama bulan" required><datalist id="month-options"><option value="Januari"><option value="Februari"><option value="Maret"><option value="April"><option value="Mei"><option value="Juni"><option value="Juli"><option value="Agustus"><option value="September"><option value="Oktober"><option value="November"><option value="Desember"></datalist></label>
         <label for="active-year">Tahun<input id="active-year" name="active_year" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" aria-label="Tahun transaksi aktif" required></label>
       </div>
     </section>
