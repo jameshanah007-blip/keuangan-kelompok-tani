@@ -12,12 +12,13 @@
 <section class="card">
 <div class="report-filter">
 <label for="period">Periode laporan<select id="period"><option value="1">Januari – Juni</option><option value="2">Juli – Desember</option></select></label>
-<label for="report-year">Tahun<select id="report-year"></select></label>
+<label for="report-year">Tahun<input id="report-year" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required></label>
 <button id="apply-period" class="btn btn-primary" type="button">Pilih Periode</button><button id="download-pdf" class="btn btn-outline" type="button">Download PDF</button>
 </div>
 <section class="report-paper" id="report-paper">
 <header class="report-title"><h2>LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II</h2><p id="period-heading">PERIODE JANUARI - JUNI 2026</p></header>
 <div id="report-details" class="report-table-wrap" aria-live="polite">Memuat laporan…</div>
+<section class="report-attachment" id="report-attachment"><header class="report-title"><h2>LAMPIRAN</h2><p id="attachment-period">PERIODE JANUARI - JUNI 2026</p></header><div id="attachment-details" class="report-table-wrap" aria-live="polite">Memuat lampiran…</div></section>
 <div class="report-signatures"><p id="report-date">Purwosari, ....................................</p><div class="signature-columns"><div><strong>Mengetahui</strong><p>Ketua</p><span>..................................</span></div><div><strong>&nbsp;</strong><p>Bendahara</p><span>..................................</span></div></div></div>
 </section>
 </section>
