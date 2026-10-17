@@ -51,25 +51,27 @@ async function downloadPdf(){
   const rowsToData=table=>Array.from(table.querySelectorAll("tbody tr")).map(tr=>Array.from(tr.querySelectorAll("th,td")).map(td=>td.textContent.trim()));
   const data=rowsToData(mainTable);
   const attachmentData=rowsToData(attachmentTable);
-  const doc=new JsPDF({orientation:"landscape",unit:"mm",format:"a4"});
+  const doc=new JsPDF({orientation:"portrait",unit:"mm",format:"a4"});
   if(typeof doc.autoTable!=="function")throw new Error("Komponen tabel PDF belum termuat. Periksa koneksi internet dan coba lagi.");
   const pageWidth=doc.internal.pageSize.getWidth();
-  doc.setFont("helvetica","bold");doc.setFontSize(12);
-  doc.text("LAPORAN PERTANGGUNGJAWABAN KEUANGAN KELOMPOK TANI USAHA PANGAN II",pageWidth/2,12,{align:"center"});
-  doc.setFontSize(10);
-  doc.text(document.getElementById("period-heading").textContent,pageWidth/2,18,{align:"center"});
-  doc.autoTable({startY:23,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:10,right:10},styles:{fontSize:8,cellPadding:1.5,textColor:[0,0,0],overflow:"linebreak"},headStyles:{fillColor:[239,242,239],textColor:[0,0,0]},columnStyles:{0:{cellWidth:15},1:{cellWidth:130},2:{halign:"right"},3:{halign:"right"},4:{halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&["I","II","III","IV","TOTAL"].includes(row[0]))d.cell.styles.fontStyle="bold"}});
+  doc.setFont("helvetica","bold");doc.setFontSize(10);
+  doc.text("LAPORAN PERTANGGUNGJAWABAN KEUANGAN",pageWidth/2,12,{align:"center"});
+  doc.setFontSize(8);
+  doc.text("KELOMPOK TANI USAHA PANGAN II",pageWidth/2,17,{align:"center"});
+  doc.setFontSize(8);
+  doc.text(document.getElementById("period-heading").textContent,pageWidth/2,22,{align:"center"});
+  doc.autoTable({startY:27,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:8,right:8},tableWidth: "auto",styles:{fontSize:6.5,cellPadding:1.2,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},headStyles:{fillColor:[23,107,82],textColor:[255,255,255],fontStyle:"bold",halign:"center"},columnStyles:{0:{cellWidth:11,halign:"center"},1:{cellWidth:79},2:{cellWidth:29,halign:"right"},3:{cellWidth:29,halign:"right"},4:{cellWidth:29,halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&["I","II","III","IV","TOTAL"].includes(row[0]))d.cell.styles.fontStyle="bold"}});
   let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
-  if(y>180){doc.addPage("a4","landscape");y=15}
+  if(y>255){doc.addPage("a4","portrait");y=18}
   doc.setFont("helvetica","normal");doc.setFontSize(9);
   doc.text("Mengetahui",35,y);doc.text("Bendahara",pageWidth-45,y);
   doc.text("Ketua",35,y+7);
   doc.text("..................................",25,y+25);
   doc.text("..................................",pageWidth-55,y+25);
-  doc.addPage("a4","landscape");
-  doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("LAMPIRAN",14,18);
+  doc.addPage("a4","portrait");
+  doc.setFont("helvetica","bold");doc.setFontSize(13);doc.text("LAMPIRAN",14,18);
   doc.setFontSize(10);doc.text(document.getElementById("attachment-period").textContent,14,25);
-  doc.autoTable({startY:32,head:[],body:attachmentData,theme:"grid",margin:{left:18,right:18},styles:{fontSize:11,cellPadding:3,textColor:[0,0,0]},columnStyles:{0:{cellWidth:20,halign:"center"},1:{cellWidth:190},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
+  doc.autoTable({startY:32,head:[],body:attachmentData,theme:"grid",margin:{left:12,right:12},tableWidth:"auto",styles:{fontSize:9,cellPadding:2.5,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},columnStyles:{0:{cellWidth:15,halign:"center"},1:{cellWidth:115},2:{cellWidth:40,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
   doc.save("Laporan-Keuangan-"+periodBounds().year+"-Semester-"+periodBounds().half+".pdf");
  }catch(error){
   console.error("Gagal membuat PDF laporan:",error);
