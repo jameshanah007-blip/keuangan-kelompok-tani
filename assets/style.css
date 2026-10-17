@@ -148,3 +148,35 @@ footer{margin-top:auto}
 /* Perbaikan tampilan lampiran */
 .report-attachment .report-title{border-bottom:0}
 .attachment-table tr:last-child td{border-bottom:1px solid #343a35}
+
+
+/* Penyempurnaan halaman laporan: profesional, nyaman di HP */
+.report-container{max-width:1120px}
+.report-filter{padding:16px;background:#f8fbf8;border:1px solid #e2ebe4;border-radius:16px}
+.report-filter .btn{min-height:46px;white-space:nowrap}
+.report-paper{border-color:#e0e7e1;border-radius:16px;box-shadow:0 8px 28px #173b280b;overflow:hidden}
+.report-title{padding:4px 0 14px}
+.report-title h2{letter-spacing:.025em}
+.formal-report-table{min-width:660px}
+.formal-report-table th{letter-spacing:.04em}
+.formal-report-table .section-row td{background:#edf5ef}
+.formal-report-table .ending-row td{background:#e3f2e8;color:#174d37}
+.attachment-table .section-row td{background:#edf5ef}
+.report-attachment{border-top:3px solid #176b52}
+.report-signatures{padding-top:8px}
+@media(max-width:650px){
+ .page-heading{margin:4px 0 18px}
+ .report-filter{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:13px;border-radius:14px}
+ .report-filter label{min-width:0;width:100%}
+ .report-filter .btn{width:100%}
+ .report-paper{margin-top:16px;padding:12px;border-radius:13px}
+ .report-title h2{font-size:13px}
+ .report-title p{font-size:12px}
+ .formal-report-table{min-width:620px;font-size:11px}
+ .formal-report-table th,.formal-report-table td{padding:8px 7px}
+ .formal-report-table td:nth-child(2){min-width:230px}
+ .attachment-table{font-size:11px}
+ .signature-columns{gap:10px}
+ .signature-columns p{margin:16px 0 36px}
+}
+@media(prefers-reduced-motion:reduce){.report-paper{scroll-behavior:auto}}
