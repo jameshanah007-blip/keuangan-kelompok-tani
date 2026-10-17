@@ -180,3 +180,12 @@ footer{margin-top:auto}
  .signature-columns p{margin:16px 0 36px}
 }
 @media(prefers-reduced-motion:reduce){.report-paper{scroll-behavior:auto}}
+
+
+/* Milestone portal polish: accessible navigation and consistent mobile spacing */
+:focus-visible{outline:3px solid #6ca88a;outline-offset:3px}
+@media(max-width:700px){
+ .topbar nav{flex-wrap:nowrap;min-width:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .topbar nav::-webkit-scrollbar{display:none}
+ .topbar nav a{flex:0 0 auto}
+}
