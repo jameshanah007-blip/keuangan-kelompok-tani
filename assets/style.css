@@ -144,3 +144,7 @@ footer{margin-top:auto}
 .attachment-table .total-row td{font-weight:800}
 @media(max-width:650px){.report-attachment{margin-top:24px;padding-top:18px}.attachment-table{font-size:12px}.attachment-table td{padding:9px 7px}.attachment-table td:first-child{width:48px}}
 @media print{.report-attachment{break-before:page;page-break-before:always}.attachment-table{min-width:0;font-size:10px}.attachment-table td{padding:6px}}
+
+/* Perbaikan tampilan lampiran */
+.report-attachment .report-title{border-bottom:0}
+.attachment-table tr:last-child td{border-bottom:1px solid #343a35}
