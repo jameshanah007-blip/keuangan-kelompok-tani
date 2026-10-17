@@ -21,7 +21,7 @@
       <div class="period-copy"><span class="period-icon" aria-hidden="true">▦</span><div><strong>Periode transaksi aktif</strong><small>Semua transaksi baru akan menggunakan periode ini.</small></div></div>
       <div class="period-fields">
         <label for="active-semester">Semester<select id="active-semester" name="active_semester"><option value="1">Januari – Juni</option><option value="2">Juli – Desember</option></select></label>
-        <label for="active-year">Tahun<select id="active-year" name="active_year"></select></label>
+        <label for="active-year">Tahun<input id="active-year" name="active_year" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" aria-label="Tahun transaksi aktif" required></label>
       </div>
     </section>
     <div class="choice-row">
