@@ -34,7 +34,7 @@ function buildAttachment(){
 const list=currentRows(),profitRows=[];
 const incomePupuk=list.filter(r=>r.direction==="pemasukan"&&r.category==="pupuk"&&!isSaldo(r));
 const expensePupuk=list.filter(r=>r.direction==="pengeluaran"&&r.category==="pupuk"&&!isSaldo(r));
-const productKey=r=>String(r.product_name||r.description||"").trim().toLocaleLowerCase("id-ID").replace(/\\s+/g," ");
+const productKey=r=>String(r.product_name||r.description||"").trim().toLocaleLowerCase("id-ID").replace(/\s+/g," ");
 const productName=r=>String(r.product_name||r.description||"Pupuk").trim();
 const groups=new Map();
 for(const r of incomePupuk){
@@ -66,7 +66,7 @@ for(const group of groups.values()){
  }
  profitRows.push({label,amount});
 }
-const tractor=list.filter(r=>r.direction==="pemasukan"&&/sewa\\s*traktor/i.test(String(r.description||""))&&!isSaldo(r)).reduce((s,r)=>s+amountOf(r),0);
+const tractor=list.filter(r=>r.direction==="pemasukan"&&/sewa\s*traktor/i.test(String(r.description||""))&&!isSaldo(r)).reduce((s,r)=>s+amountOf(r),0);
 if(tractor>0)profitRows.push({label:"Sewa Traktor",amount:tractor});
 const total=profitRows.reduce((s,r)=>s+r.amount,0);
 const table=document.createElement("table");table.className="attachment-table";const body=document.createElement("tbody");
