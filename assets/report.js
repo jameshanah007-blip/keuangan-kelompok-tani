@@ -66,8 +66,7 @@ for(const group of groups.values()){
  }
  profitRows.push({label,amount});
 }
-const tractor=list.filter(r=>r.direction==="pemasukan"&&/sewa\s*traktor/i.test(String(r.description||""))&&!isSaldo(r)).reduce((s,r)=>s+amountOf(r),0);
-if(tractor>0)profitRows.push({label:"Sewa Traktor",amount:tractor});
+
 const total=profitRows.reduce((s,r)=>s+r.amount,0);
 const table=document.createElement("table");table.className="attachment-table";const body=document.createElement("tbody");
 function row(no,label,amount="",kind=""){const tr=document.createElement("tr");if(kind)tr.className=kind;cell(tr,no);cell(tr,label);cell(tr,amount===""?"":money(amount),"number");body.append(tr)}
