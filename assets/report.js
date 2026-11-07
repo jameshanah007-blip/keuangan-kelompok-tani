@@ -30,10 +30,54 @@ addRow(body,{no:"IV",description:"PENGELUARAN",kind:"section-row"});letter=0;for
 addRow(body,{no:"",description:"SALDO AKHIR "+months[p.endMonth-1].toUpperCase()+" "+p.year,balance:periodOpening-totalPupuk+totalIn-totalOut,kind:"ending-row"});
 table.append(body);$("#report-details").replaceChildren(table);if(!list.length){const note=document.createElement("p");note.className="report-empty-note";note.textContent="Belum ada transaksi pada periode ini.";$("#report-details").prepend(note)}}
 function canonicalProduct(r){const n=String(r.product_name||r.description||"").toLowerCase();if(n.includes("ponska"))return "Ponska";if(n.includes("urea"))return "Urea";if(n.includes("vayego"))return "Vayego";if(n.includes("za plus")||n.includes("za plus"))return "ZA Plus";return ""}
-function buildAttachment(){const list=currentRows(),products=["Ponska","Urea","Vayego"],profitRows=[];for(const name of products){const outs=list.filter(r=>r.direction==="pengeluaran"&&r.category==="pupuk"&&canonicalProduct(r)===name&&!isSaldo(r));const ins=list.filter(r=>r.direction==="pemasukan"&&r.category==="pupuk"&&canonicalProduct(r)===name&&!isSaldo(r));const outTotal=outs.reduce((s,r)=>s+amountOf(r),0),inTotal=ins.reduce((s,r)=>s+amountOf(r),0),profit=inTotal-outTotal;if(profit<=0)continue;const quantity=ins.reduce((s,r)=>s+Number(r.quantity||0),0)||outs.reduce((s,r)=>s+Number(r.quantity||0),0);const unitProfit=quantity?profit/quantity:0;const unit=ins[0]?.unit||outs[0]?.unit||"Zak";profitRows.push({number:String(profitRows.length+1),label:name+" "+qty(quantity)+" "+unit+" x "+money(unitProfit),amount:profit})}
-const tractor=list.filter(r=>r.direction==="pemasukan"&&/sewa\s*traktor/i.test(String(r.description||""))).reduce((s,r)=>s+amountOf(r),0);if(tractor>0)profitRows.push({number:String(profitRows.length+1),label:"Sewa Traktor",amount:tractor});const total=profitRows.reduce((s,r)=>s+r.amount,0);
-const table=document.createElement("table");table.className="attachment-table";const body=document.createElement("tbody");function row(no,label,amount="",kind=""){const tr=document.createElement("tr");if(kind)tr.className=kind;cell(tr,no);cell(tr,label);cell(tr,amount===""?"":money(amount),"number");body.append(tr)}
-row("I","KEUNTUNGAN KELOMPOK :","","section-row");profitRows.forEach(r=>row(r.number,r.label,r.amount));row("","Total",total,"total-row");row("II","PEMBAGIAN KEUNTUNGAN : "+money(total),"","section-row");row("1","40 % Pengurus",total*.4);row("2","40% Pengembangan Kelompok",total*.4);row("3","20% Operasional",total*.2);table.append(body);$("#attachment-details").replaceChildren(table)}
+function buildAttachment(){
+const list=currentRows(),profitRows=[];
+const incomePupuk=list.filter(r=>r.direction==="pemasukan"&&r.category==="pupuk"&&!isSaldo(r));
+const expensePupuk=list.filter(r=>r.direction==="pengeluaran"&&r.category==="pupuk"&&!isSaldo(r));
+const productKey=r=>String(r.product_name||r.description||"").trim().toLocaleLowerCase("id-ID").replace(/\s+/g," ");
+const productName=r=>String(r.product_name||r.description||"Pupuk").trim();
+const groups=new Map();
+for(const r of incomePupuk){
+ const key=productKey(r);
+ if(!key)continue;
+ if(!groups.has(key))groups.set(key,{name:productName(r),income:[],expense:[]});
+ groups.get(key).income.push(r);
+}
+for(const r of expensePupuk){
+ const key=productKey(r);
+ if(groups.has(key))groups.get(key).expense.push(r);
+}
+for(const group of groups.values()){
+ const inTotal=group.income.reduce((s,r)=>s+amountOf(r),0);
+ const outTotal=group.expense.reduce((s,r)=>s+amountOf(r),0);
+ const quantity=group.income.reduce((s,r)=>s+Number(r.quantity||0),0);
+ const unit=group.income.find(r=>r.unit)?.unit||"unit";
+ let amount,label;
+ if(group.expense.length){
+  amount=inTotal-outTotal;
+  if(amount<=0)continue;
+  const unitProfit=quantity?amount/quantity:0;
+  label=group.name+" "+qty(quantity)+" "+unit+" x "+money(unitProfit);
+ }else{
+  amount=inTotal;
+  if(amount<=0)continue;
+  const unitPrice=quantity?amount/quantity:0;
+  label=quantity?group.name+" "+qty(quantity)+" "+unit+" @ "+money(unitPrice):group.name;
+ }
+ profitRows.push({label,amount});
+}
+const tractor=list.filter(r=>r.direction==="pemasukan"&&/sewa\s*traktor/i.test(String(r.description||""))&&!isSaldo(r)).reduce((s,r)=>s+amountOf(r),0);
+if(tractor>0)profitRows.push({label:"Sewa Traktor",amount:tractor});
+const total=profitRows.reduce((s,r)=>s+r.amount,0);
+const table=document.createElement("table");table.className="attachment-table";const body=document.createElement("tbody");
+function row(no,label,amount="",kind=""){const tr=document.createElement("tr");if(kind)tr.className=kind;cell(tr,no);cell(tr,label);cell(tr,amount===""?"":money(amount),"number");body.append(tr)}
+row("I","KEUNTUNGAN KELOMPOK :","","section-row");
+profitRows.forEach((r,i)=>row(String(i+1),r.label,r.amount));
+row("","Total",total,"total-row");
+row("II","PEMBAGIAN KEUNTUNGAN : "+money(total),"","section-row");
+row("1","40 % Pengurus",total*.4);row("2","40% Pengembangan Kelompok",total*.4);row("3","20% Operasional",total*.2);
+table.append(body);$("#attachment-details").replaceChildren(table)
+}
 function render(){renderMain();const p=periodBounds();if(p.startMonth&&p.endMonth&&p.startMonth<=p.endMonth)buildAttachment();else $("#attachment-details").innerHTML='<p class="report-empty-note">Pilih rentang bulan dan tahun, lalu tekan Pilih Periode.</p>'}
 async function load(){const settings=await db.from("tani_pengaturan").select("saldo_awal").eq("id",1).maybeSingle();if(settings.error){$("#report-details").textContent="Gagal membaca saldo awal: "+settings.error.message;return}opening=Number(settings.data?.saldo_awal??0);const result=await db.from("tani_transaksi").select("*").order("created_at",{ascending:true});if(result.error){$("#report-details").textContent="Tidak dapat memuat laporan: "+result.error.message+" (periksa akses akun dan kebijakan RLS Supabase).";return}rows=result.data||[];render()}
 function validYear(){const raw=String($("#report-year").value||"").trim();if(!/^\d{4}$/.test(raw)||Number(raw)<1900||Number(raw)>9999){alert("Masukkan tahun dengan 4 angka, misalnya 2026.");$("#report-year").focus();return null}return Number(raw)}
