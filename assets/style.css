@@ -274,3 +274,9 @@ footer{margin-top:auto}
    border:1.2pt solid #000!important;
  }
 }
+
+/* Attachment page: left-aligned heading and compact print rows */
+@media print {
+ #report-attachment .report-title { text-align:left!important; }
+ #report-attachment .attachment-table td { padding:1.8mm 2.5mm!important; }
+}
