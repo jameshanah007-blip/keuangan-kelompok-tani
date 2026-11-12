@@ -111,10 +111,10 @@ async function downloadPdf(){
   const signatureDots="..................................";
   const signatureDotsWidth=doc.getTextWidth(signatureDots);
   const leftSignatureCenter=35+signatureDotsWidth/2;
-  doc.text("Mengetahui",leftSignatureCenter,y);
+  doc.text("Mengetahui",35,y);
   const rightSignatureStart=pageWidth-59;
   const rightSignatureCenter=rightSignatureStart+signatureDotsWidth/2;
-  doc.text("Ketua",leftSignatureCenter,y+7,{align:"center"});
+  doc.text("Ketua",35,y+7);
   doc.text("Bendahara",rightSignatureCenter,y+7,{align:"center"});
   doc.text(signatureDots,35,y+25);
   doc.text(signatureDots,rightSignatureStart,y+25);
