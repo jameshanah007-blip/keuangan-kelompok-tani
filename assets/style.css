@@ -266,3 +266,11 @@ footer{margin-top:auto}
  .attachment-table td { padding:3mm!important; }
  tr { break-inside:avoid; page-break-inside:avoid; }
 }
+
+/* Darker table borders for clear A4 print output */
+@media print {
+ .formal-report-table th,.formal-report-table td,
+ .attachment-table th,.attachment-table td {
+   border:0.65pt solid #222!important;
+ }
+}
