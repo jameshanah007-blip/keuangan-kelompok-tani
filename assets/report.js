@@ -108,10 +108,10 @@ async function downloadPdf(){
   let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
   if(y+29>282){throw new Error("Laporan utama melebihi satu halaman A4. Kurangi rentang periode atau jumlah baris agar tanda tangan tetap di halaman pertama.")}
   doc.setFont("helvetica","normal");doc.setFontSize(9);
-  doc.text("Mengetahui",leftSignatureCenter,y+7);
   const signatureDots="..................................";
   const signatureDotsWidth=doc.getTextWidth(signatureDots);
   const leftSignatureCenter=35+signatureDotsWidth/2;
+  doc.text("Mengetahui",leftSignatureCenter,y+7);
   const rightSignatureStart=pageWidth-59;
   const rightSignatureCenter=rightSignatureStart+signatureDotsWidth/2;
   doc.text("Ketua",leftSignatureCenter,y+7,{align:"center"});
