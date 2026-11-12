@@ -108,7 +108,7 @@ async function downloadPdf(){
   let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
   if(y+29>282){throw new Error("Laporan utama melebihi satu halaman A4. Kurangi rentang periode atau jumlah baris agar tanda tangan tetap di halaman pertama.")}
   doc.setFont("helvetica","normal");doc.setFontSize(9);
-  doc.text("Mengetahui",47,y);doc.text("Bendahara",pageWidth-47,y);
+  doc.text("Mengetahui",47,y);doc.text("Bendahara",pageWidth-47,y+7);
   doc.text("Ketua",47,y+7);
   doc.text("..................................",35,y+25);
   doc.text("..................................",pageWidth-59,y+25);
