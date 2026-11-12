@@ -113,9 +113,9 @@ async function downloadPdf(){
   doc.text("..................................",35,y+25);
   doc.text("..................................",pageWidth-59,y+25);
   doc.addPage("a4","portrait");
-  doc.setFont("helvetica","bold");doc.setFontSize(15);doc.text("LAMPIRAN",pageWidth/2,18,{align:"center"});
-  doc.setFontSize(11);doc.text(document.getElementById("attachment-period").textContent,pageWidth/2,25,{align:"center"});
-  doc.autoTable({startY:33,head:[],body:attachmentData,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth:"auto",styles:{fontSize:11,cellPadding:3,textColor:[0,0,0],overflow:"linebreak",valign:"middle",lineWidth:0.8,lineColor:[0,0,0]},columnStyles:{0:{cellWidth:18,halign:"center"},1:{cellWidth:123},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{d.cell.styles.lineWidth=0.8;d.cell.styles.lineColor=[0,0,0];const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
+  doc.setFont("helvetica","bold");doc.setFontSize(15);doc.text("LAMPIRAN",12,18);
+  doc.setFontSize(11);doc.text(document.getElementById("attachment-period").textContent,12,25);
+  doc.autoTable({startY:33,head:[],body:attachmentData,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth:"auto",styles:{fontSize:11,cellPadding:{top:1.6,right:2.5,bottom:1.6,left:2.5},textColor:[0,0,0],overflow:"linebreak",valign:"middle",lineWidth:0.8,lineColor:[0,0,0]},columnStyles:{0:{cellWidth:18,halign:"center"},1:{cellWidth:123},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{d.cell.styles.lineWidth=0.8;d.cell.styles.lineColor=[0,0,0];const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
   if(doc.internal.getNumberOfPages()!==2)throw new Error("Hasil PDF tidak tepat dua halaman A4. Periksa jumlah baris laporan dan lampiran.");
   const p=periodBounds();doc.save("Laporan-Keuangan-"+p.year+"-"+months[p.startMonth-1]+"-sampai-"+months[p.endMonth-1]+".pdf");
  }catch(error){
