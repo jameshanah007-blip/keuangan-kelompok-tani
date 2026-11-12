@@ -98,13 +98,13 @@ async function downloadPdf(){
   const doc=new JsPDF({orientation:"portrait",unit:"mm",format:"a4"});
   if(typeof doc.autoTable!=="function")throw new Error("Komponen tabel PDF belum termuat. Periksa koneksi internet dan coba lagi.");
   const pageWidth=doc.internal.pageSize.getWidth();
-  doc.setFont("helvetica","bold");doc.setFontSize(10);
+  doc.setFont("helvetica","bold");doc.setFontSize(12);
   doc.text("LAPORAN PERTANGGUNGJAWABAN KEUANGAN",pageWidth/2,22,{align:"center"});
-  doc.setFontSize(8);
+  doc.setFontSize(10);
   doc.text("KELOMPOK TANI USAHA PANGAN II",pageWidth/2,17,{align:"center"});
-  doc.setFontSize(8);
+  doc.setFontSize(10);
   doc.text(document.getElementById("period-heading").textContent,pageWidth/2,27,{align:"center"});
-  doc.autoTable({startY:33,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth: "auto",styles:{fontSize:8,cellPadding:1.6,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},headStyles:{fillColor:[23,107,82],textColor:[255,255,255],fontStyle:"bold",halign:"center"},columnStyles:{0:{cellWidth:11,halign:"center"},1:{cellWidth:76},2:{cellWidth:33,halign:"right"},3:{cellWidth:33,halign:"right"},4:{cellWidth:33,halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&["I","II","III","IV","TOTAL"].includes(row[0]))d.cell.styles.fontStyle="bold"}});
+  doc.autoTable({startY:33,head:[["NO","KETERANGAN","PEMASUKAN","PENGELUARAN","SALDO"]],body:data,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth: "auto",styles:{fontSize:9.5,cellPadding:2,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},headStyles:{fillColor:[23,107,82],textColor:[255,255,255],fontStyle:"bold",halign:"center"},columnStyles:{0:{cellWidth:16,halign:"center"},1:{cellWidth:68},2:{cellWidth:34,halign:"right"},3:{cellWidth:34,halign:"right"},4:{cellWidth:34,halign:"right"}},rowPageBreak:"avoid",didParseCell:d=>{const row=data[d.row.index];if(d.section==="body"&&row&&["I","II","III","IV","TOTAL"].includes(row[0]))d.cell.styles.fontStyle="bold"}});
   let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
   if(y+29>282){throw new Error("Laporan utama melebihi satu halaman A4. Kurangi rentang periode atau jumlah baris agar tanda tangan tetap di halaman pertama.")}
   doc.setFont("helvetica","normal");doc.setFontSize(9);
@@ -113,9 +113,9 @@ async function downloadPdf(){
   doc.text("..................................",35,y+25);
   doc.text("..................................",pageWidth-59,y+25);
   doc.addPage("a4","portrait");
-  doc.setFont("helvetica","bold");doc.setFontSize(13);doc.text("LAMPIRAN",pageWidth/2,18,{align:"center"});
-  doc.setFontSize(10);doc.text(document.getElementById("attachment-period").textContent,pageWidth/2,25,{align:"center"});
-  doc.autoTable({startY:33,head:[],body:attachmentData,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth:"auto",styles:{fontSize:10,cellPadding:2.8,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},columnStyles:{0:{cellWidth:15,halign:"center"},1:{cellWidth:126},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
+  doc.setFont("helvetica","bold");doc.setFontSize(15);doc.text("LAMPIRAN",pageWidth/2,18,{align:"center"});
+  doc.setFontSize(11);doc.text(document.getElementById("attachment-period").textContent,pageWidth/2,25,{align:"center"});
+  doc.autoTable({startY:33,head:[],body:attachmentData,theme:"grid",margin:{left:12,right:12,top:15,bottom:15},tableWidth:"auto",styles:{fontSize:11,cellPadding:3,textColor:[0,0,0],overflow:"linebreak",valign:"middle"},columnStyles:{0:{cellWidth:18,halign:"center"},1:{cellWidth:123},2:{cellWidth:45,halign:"right"}},didParseCell:d=>{const row=attachmentData[d.row.index];if(d.section==="body"&&row&&(row[0]==="I"||row[0]==="II"||row[1]==="Total"))d.cell.styles.fontStyle="bold"}});
   if(doc.internal.getNumberOfPages()!==2)throw new Error("Hasil PDF tidak tepat dua halaman A4. Periksa jumlah baris laporan dan lampiran.");
   const p=periodBounds();doc.save("Laporan-Keuangan-"+p.year+"-"+months[p.startMonth-1]+"-sampai-"+months[p.endMonth-1]+".pdf");
  }catch(error){
