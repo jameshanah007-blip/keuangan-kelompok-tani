@@ -108,10 +108,16 @@ async function downloadPdf(){
   let y=(doc.lastAutoTable&&doc.lastAutoTable.finalY||45)+8;
   if(y+29>282){throw new Error("Laporan utama melebihi satu halaman A4. Kurangi rentang periode atau jumlah baris agar tanda tangan tetap di halaman pertama.")}
   doc.setFont("helvetica","normal");doc.setFontSize(9);
-  doc.text("Mengetahui",47,y);doc.text("Bendahara",pageWidth-47,y+7);
-  doc.text("Ketua",47,y+7);
-  doc.text("..................................",35,y+25);
-  doc.text("..................................",pageWidth-59,y+25);
+  doc.text("Mengetahui",47,y);
+  const signatureDots="..................................";
+  const signatureDotsWidth=doc.getTextWidth(signatureDots);
+  const leftSignatureCenter=35+signatureDotsWidth/2;
+  const rightSignatureStart=pageWidth-59;
+  const rightSignatureCenter=rightSignatureStart+signatureDotsWidth/2;
+  doc.text("Ketua",leftSignatureCenter,y+7,{align:"center"});
+  doc.text("Bendahara",rightSignatureCenter,y+7,{align:"center"});
+  doc.text(signatureDots,35,y+25);
+  doc.text(signatureDots,rightSignatureStart,y+25);
   doc.addPage("a4","portrait");
   doc.setFont("helvetica","bold");doc.setFontSize(15);doc.text("LAMPIRAN",12,18);
   doc.setFontSize(11);doc.text(document.getElementById("attachment-period").textContent,12,25);
