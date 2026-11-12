@@ -271,7 +271,7 @@ footer{margin-top:auto}
 @media print {
  .formal-report-table th,.formal-report-table td,
  .attachment-table th,.attachment-table td {
-   border:0.6pt solid #66716b!important;
+   border:0.5pt solid #000!important;
  }
 }
 
